@@ -4,9 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://unpkg.com/vue@3.0.11"></script>
+
     <title>SE</title>
 </head>
 <body>
-    
+    <div v-else-if="UI == 'orders'">
+        <h1></h1>
+        <table border="1">
+            <tr><td>oid</td><td>tid</td><td>uid</td><td>orderdata</td><td>status</td><td>star</td></tr>
+            <tr v-for="order in orders">
+                <td>{{ order.oid }}</td>
+                <td>{{ order.tid }}</td>
+                <td>{{ order.uid }}</td>
+                <td>{{ order.orderdata }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.star }}</td>
+                <td><button @click="send(order.oid)">寄送</button></td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        const todoApp = Vue.createApp({
+            data() {
+                return {
+                    UI: 'orders',
+                    orders: [],
+                    
+                };
+            },
+        methods: {
+            loadProducts: function () {
+                    const that = this;
+                    fetch('http://localhost:3000/orders'),{
+                    method: "GET"
+                    }
+                        .then(function(response) {
+                            return response.json();
+                        })
+                        .then(function(myJson) {
+                            that.orders = myJson;
+                        });
+                },
+            send: function () {
+                const that=this;
+                let mydat = new FormData();
+                // mydat.append( "order", JSON.stringify(this.newJob) );
+                console.log(mydat.toString());
+                let url="http://localhost:3000/orders";
+                fetch(url,{
+                    method: 'PUT',
+                    body: mydat // 將表單物件放入fetch的body屬性
+                })
+                .then(function(res){return res.text(); }) //取得傳回值，轉為文字
+		    },
+        },
+            created() {
+                this.loadProducts();
+            }
+    }).mount("#orders");
+    </script>
 </body>
 </html>
