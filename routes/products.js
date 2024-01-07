@@ -2,6 +2,7 @@ import Router from "@koa/router";
 
 const router = new Router();
 
+// POST localhost/products/
 router.post("/products/", async (ctx) => {
     const request = ctx.request.body;
     const name = request.name;
@@ -18,6 +19,7 @@ router.post("/products/", async (ctx) => {
     }
 });
 
+// GET localhost/products/
 router.get("/products/", async (ctx) => {
     const request = ctx.request.body;
     const name = request.name;
