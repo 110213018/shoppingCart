@@ -40,8 +40,8 @@ router.delete("/carts/:id", async (ctx) => {
 });
 
 // 送出後清空訂單
-router.delete("/carts/", async (ctx) => {
-    const userId = ctx.request.query["user_id"];
+router.delete("/carts/", auth, async (ctx) => {
+    const userId = ctx.state.user.id;
     const model = ctx.models.carts;
     await model.removeByUserId(userId);
     ctx.status = 204;

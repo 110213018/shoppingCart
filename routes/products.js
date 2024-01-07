@@ -1,15 +1,16 @@
 import Router from "@koa/router";
+import auth from "../middleware/auth.js"; //驗證
 
 const router = new Router();
 
 // POST localhost/products/
-router.post("/products/", async (ctx) => {
+router.post("/products/", auth, async (ctx) => {
     const request = ctx.request.body;
     const name = request.name;
     const intro = request.intro;
     const price = request.price;
     const stock = request.stock;
-    const sid = request.sid;
+    const sid = ctx.state.user.id; //驗證sid的身分後，才可執行post的動作
     const model = ctx.models.products;
     const product = await model.create(name, intro, price, stock, sid);
     ctx.status = 201;
@@ -31,14 +32,14 @@ router.get("/products/", async (ctx) => {
 });
 
 // PUT localhost/products/
-router.put("/products/:id", async (ctx) => {
+router.put("/products/:id", auth, async (ctx) => {
     const id = ctx.params.id;
     const request = ctx.request.body;
     const name = request.name;
     const intro = request.intro;
     const price = request.price;
     const stock = request.stock;
-    const sid = request.sid;
+    const sid = ctx.state.user.id;
     const model = ctx.models.products;
     const product = await model.edit(id, name, intro, price, stock, sid);
     ctx.status = 200;
@@ -48,7 +49,7 @@ router.put("/products/:id", async (ctx) => {
     }
 });
 
-router.delete("/products/:id", async (ctx) => {
+router.delete("/products/:id", auth, async (ctx) => {
     const id = ctx.params.id;
     const model = ctx.models.products;
     await model.remove(id);
