@@ -2,7 +2,7 @@ import Router from "@koa/router";
 
 const router = new Router();
 
-// POST localhost/products/
+// POST localhost/carts/
 router.post("/carts/", async (ctx) => {
     const request = ctx.request.body;
     const productId = request.productId;
@@ -29,6 +29,7 @@ router.get("/carts/", async (ctx) => {
     }
 });
 
+// 購物車中移除
 router.delete("/carts/:id", async (ctx) => {
     const id = ctx.params.id;
     const model = ctx.models.carts;
@@ -36,6 +37,7 @@ router.delete("/carts/:id", async (ctx) => {
     ctx.status = 204;
 });
 
+// 送出後清空訂單
 router.delete("/carts/", async (ctx) => {
     const userId = ctx.request.query["user_id"];
     const model = ctx.models.carts;
