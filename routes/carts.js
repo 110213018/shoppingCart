@@ -1,12 +1,14 @@
 import Router from "@koa/router";
 
+import auth from "../middleware/auth.js";
+
 const router = new Router();
 
 // POST localhost/carts/
-router.post("/carts/", async (ctx) => {
+router.post("/carts/", auth, async (ctx) => {
     const request = ctx.request.body;
     const productId = request.productId;
-    const userId = request.userId;
+    const userId = ctx.state.user.id;
     const quantity = request.quantity;
     const model = ctx.models.carts;
     const cart = await model.create(productId, userId, quantity);
@@ -18,8 +20,8 @@ router.post("/carts/", async (ctx) => {
 });
 
 // GET localhost/carts/
-router.get("/carts/", async (ctx) => {
-    const userId = ctx.request.query["user_id"];
+router.get("/carts/", auth, async (ctx) => {
+    const userId = ctx.state.user.id;
     const model = ctx.models.carts;
     const carts = await model.getByUserId(userId);
     ctx.status = 200;

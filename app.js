@@ -10,6 +10,8 @@ import ProductsModel from "./models/products.js";
 import ProductsRouter from "./routes/products.js";
 import CartsModel from "./models/carts.js";
 import CartsRouter from "./routes/carts.js";
+import OrdersModel from "./models/orders.js";
+import OrdersRouter from "./routes/orders.js";
 
 // 初始化 server
 const server = new Koa();
@@ -33,6 +35,9 @@ models.products = products;
 // carts model
 const carts = new CartsModel(db);
 models.carts = carts;
+
+const orders = new OrdersModel(db);
+models.orders = orders;
 // 放到 context 裡面
 server.context.models = models;
 
@@ -47,6 +52,8 @@ server.use(logger());
 server.use(UsersRouter.routes());
 server.use(ProductsRouter.routes());
 server.use(CartsRouter.routes());
+server.use(OrdersRouter.routes());
+
 
 // 監聽 3000 port
 server.listen(3000, () => {
