@@ -20,4 +20,10 @@ class Products {
         const { insertId } = await this.db.query(query);
         return await this.get(insertId);
     }
+
+    async remove(id) {
+        const query = `DELETE FROM products WHERE id=${id}`;
+        const result = await this.db.query(query);
+        return result;
+    }
 }

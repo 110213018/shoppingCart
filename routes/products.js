@@ -34,4 +34,11 @@ router.get("/products/", async (ctx) => {
     }
 });
 
+router.delete("/products/:id", async (ctx) => {
+    const id = ctx.params.id;
+    const model = ctx.models.products;
+    await model.remove(id);
+    ctx.status = 204;
+});
+
 export default router;
