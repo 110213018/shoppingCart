@@ -4,10 +4,10 @@ const router = new Router();
 
 // POST localhost/products/
 router.get("/orders/", async (ctx) => {
-    const request = ctx.request.body;
-    const role = request.role;
+    const role = ctx.request.query.role;
+    const userId = ctx.request.query.userId;
     const model = ctx.models.orders;
-    const orders = await model.getAll(role);
+    const orders = await model.getAll(role, userId);
     ctx.status = 200;
     ctx.response.body = {
         msg: "getAll",
@@ -21,7 +21,7 @@ router.post("/orders/", async (ctx) => {
     const uid = request.uid;
     const orderdata = request.orderdata;
     const status = request.status;
-    const model = ctx.models.products;
+    const model = ctx.models.orders;
     const orders = await model.create(sid, uid, orderdata, status);
     ctx.status = 201;
     ctx.response.body = {
@@ -34,13 +34,14 @@ router.put("/orders/:oid", async (ctx) => {
     const request = ctx.request.body;
     const oid = ctx.params.oid;
     const status = request.status;
+    const star = request.star;
     let edit;
-    if (request.status){
+    if (status){
         const model = ctx.models.orders;
         edit = await model.editStatus(oid, status);
     }
 
-    if (request.star){
+    if (star){
         const model = ctx.models.orders;
         edit = await model.editStar(oid, star);
     }

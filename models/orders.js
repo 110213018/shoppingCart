@@ -3,8 +3,14 @@ class Orders {
         this.db = db;
     }
     // 客戶訂單
-    async getAll(role) {
-        const query = `SELECT * FROM orders WHERE role=${role}`;
+    async getAll(role, userId) {
+        let query;
+        if (role==1){
+            query = `SELECT * FROM orders WHERE sid=${userId}`;
+        }
+        if (role==2){
+            query = `SELECT * FROM orders WHERE uid=${userId}`;
+        }
         const result = await this.db.query(query);
         return result;
     }
