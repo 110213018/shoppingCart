@@ -7,13 +7,13 @@ class Users {
     }
 
     async get(id) {
-        const query = `SELECT * FROM users WHERE id = ${id}`;
+        const query = `SELECT * FROM users WHERE id = "${id}"`;
         const result = await this.db.query(query);
         return result[0];
     }
 
     async getByUsername(username) {
-        const query = `SELECT * FROM users WHERE username = ${username}`;
+        const query = `SELECT * FROM users WHERE username = "${username}"`;
         const result = await this.db.query(query);
         return result[0];
     }
