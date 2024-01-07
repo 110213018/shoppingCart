@@ -33,6 +33,7 @@ router.post("/users/login", async (ctx) => {
         return;
     }
     const token = generateAccessToken({
+        id: user.id,
         username: user.username,
         role: user.role,
     });
