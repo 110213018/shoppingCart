@@ -18,4 +18,20 @@ router.post("/products/", async (ctx) => {
     }
 });
 
+router.get("/products/", async (ctx) => {
+    const request = ctx.request.body;
+    const name = request.name;
+    const intro = request.intro;
+    const price = request.price;
+    const stock = request.stock;
+    const sid = request.sid;
+    const model = ctx.models.products;
+    const products = await model.getAll(name, intro, price, stock, sid);
+    ctx.status = 200;
+    ctx.response.body = {
+        msg: "getAll",
+        data: products,
+    }
+});
+
 export default router;

@@ -4,7 +4,9 @@ class Products {
     }
     
     async getAll() {
-
+        const query = `SELECT * FROM products`;
+        const result = await this.db.query(query);
+        return result;
     }
 
     async create(name, intro, price, stock, sid) {
