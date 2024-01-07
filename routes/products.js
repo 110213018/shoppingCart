@@ -1,5 +1,5 @@
 import Router from "@koa/router";
-import auth from "../middleware/auth"; //驗證
+import auth from "../middleware/auth.js"; //驗證
 
 const router = new Router();
 
