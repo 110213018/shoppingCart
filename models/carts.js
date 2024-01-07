@@ -20,7 +20,12 @@ class Carts {
     async getByUserId(userId) {
         const query = `SELECT * FROM carts WHERE user_id = ${userId}`;
         const result = await this.db.query(query);
-        return result[0];
+        return result;
+    }
+    async removeByUserId(userId) {
+        const query = `DELETE FROM carts WHERE user_id=${userId}`;
+        const result = await this.db.query(query);
+        return result;
     }
 }
 

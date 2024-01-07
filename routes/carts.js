@@ -19,7 +19,7 @@ router.post("/carts/", async (ctx) => {
 
 // GET localhost/carts/
 router.get("/carts/", async (ctx) => {
-    const userId = ctx.request.querystring["user_id"];
+    const userId = ctx.request.query["user_id"];
     const model = ctx.models.carts;
     const carts = await model.getByUserId(userId);
     ctx.status = 200;
@@ -35,5 +35,13 @@ router.delete("/carts/:id", async (ctx) => {
     await model.remove(id);
     ctx.status = 204;
 });
+
+router.delete("/carts/", async (ctx) => {
+    const userId = ctx.request.query["user_id"];
+    const model = ctx.models.carts;
+    await model.removeByUserId(userId);
+    ctx.status = 204;
+});
+
 
 export default router;
