@@ -36,6 +36,23 @@ router.get("/products/", async (ctx) => {
     }
 });
 
+// PUT localhost/products/
+router.put("/products/", async (ctx) => {
+    const request = ctx.request.body;
+    const name = request.name;
+    const intro = request.intro;
+    const price = request.price;
+    const stock = request.stock;
+    const sid = request.sid;
+    const model = ctx.models.products;
+    const product = await model.edit(name, intro, price, stock, sid);
+    ctx.status = 200;
+    ctx.response.body = {
+        msg: "edit",
+        data: product,
+    }
+});
+
 router.delete("/products/:id", async (ctx) => {
     const id = ctx.params.id;
     const model = ctx.models.products;

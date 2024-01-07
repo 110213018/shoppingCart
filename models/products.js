@@ -17,13 +17,19 @@ class Products {
     // 編輯商品
     async edit(name, intro, price, stock, sid) {
         const query = `UPDATE products SET name="${name}", intro="${intro}", price=${price}, stock=${stock}, sid=${sid})`;
-        const { insertId } = await this.db.query(query);
-        return await this.get(insertId);
+        await this.db.query(query);
+        return await this.getByName(name);
     }
 
     async remove(id) {
         const query = `DELETE FROM products WHERE id=${id}`;
         const result = await this.db.query(query);
         return result;
+    }
+
+    async getByName(name) {
+        const query = `SELECT * FROM products WHERE name = "${name}"`;
+        const result = await this.db.query(query);
+        return result[0];
     }
 }
