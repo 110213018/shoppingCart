@@ -5,7 +5,9 @@ import cors from "@koa/cors";
 import { createConnection } from "mariadb";
 
 import UsersModel from "./models/users.js";
-import UserRouter from "./routes/users.js";
+import UsersRouter from "./routes/users.js";
+import ProductsModel from "./models/products.js";
+import ProductsRouter from "./routes/products.js";
 
 // 初始化 server
 const server = new Koa();
@@ -24,7 +26,8 @@ const models = {};
 const users = new UsersModel(db);
 models.users = users;
 // products model
-
+const products = new ProductsModel(db);
+models.products = products;
 // 放到 context 裡面
 server.context.models = models;
 
@@ -36,7 +39,8 @@ server.use(cors());
 server.use(logger());
 
 // 放入 controller
-server.use(UserRouter.routes());
+server.use(UsersRouter.routes());
+server.use(ProductsRouter.routes());
 
 // 監聽 3000 port
 server.listen(3000, () => {
